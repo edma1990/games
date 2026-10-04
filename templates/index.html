@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ clinic.name }} | نوبت‌دهی</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="brand-mark">ک</div>
+    <div><p class="eyebrow">سامانه رسمی نوبت‌دهی</p><h1>{{ clinic.name }}</h1><p>{{ clinic.address }}</p></div>
+  </header>
+
+  <main class="shell">
+    <section class="card intro">
+      <div><h2>سلام، خوش آمدید</h2><p>نوبت مراجعه خود را در چند دقیقه ثبت کنید. فاصله پذیرش مراجعان ۲۰ دقیقه است.</p></div>
+      <a class="button secondary" href="{{ clinic.map_url }}" target="_blank" rel="noopener">مشاهده روی نقشه</a>
+    </section>
+
+    <nav class="tabs" aria-label="خدمات">
+      <button class="tab active" data-view="booking">دریافت نوبت</button>
+      <button class="tab" data-view="guide">راهنما</button>
+      <button class="tab" data-view="cancel">لغو نوبت</button>
+    </nav>
+
+    <section id="booking" class="view card">
+      <div class="progress"><span class="active"></span><span></span><span></span><span></span></div>
+      <form id="booking-form">
+        <fieldset class="step active">
+          <legend>اطلاعات مراجعه‌کننده</legend>
+          <label>کد ملی<input name="national_id" inputmode="numeric" maxlength="10" placeholder="کد ملی ده‌رقمی" required></label>
+          <div class="row"><label>نام<input name="first_name" required></label><label>نام خانوادگی<input name="last_name" required></label></div>
+          <label>شماره همراه<input name="phone" inputmode="tel" placeholder="09131234567" required></label>
+          <button type="button" class="button next">ادامه</button>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend>انتخاب روز</legend>
+          <p class="hint">روزهای دارای ظرفیت در ۳۰ روز آینده نمایش داده می‌شوند.</p>
+          <div id="dates" class="choice-grid loading">در حال دریافت روزهای آزاد…</div>
+          <div class="actions"><button type="button" class="button ghost prev">مرحله قبل</button><button type="button" class="button next" disabled>ادامه</button></div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend>انتخاب ساعت</legend>
+          <div id="slots" class="choice-grid"></div>
+          <div class="actions"><button type="button" class="button ghost prev">مرحله قبل</button><button type="button" class="button next" disabled>ادامه</button></div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend>تصویر و تأیید نهایی</legend>
+          <div class="notice">تصویر باید واضح، حداقل ۶۴۰×۶۴۰، دارای نور مناسب و مربوط به خود مراجعه‌کننده باشد. در این نسخه بررسی اولیه کیفیت انجام می‌شود.</div>
+          <label>تصویر چهره<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required></label>
+          <label class="check"><input type="checkbox" name="consent" value="true" required><span>با ثبت و پردازش اطلاعات برای نوبت‌دهی و تشکیل پرونده موافقم.</span></label>
+          <div id="summary" class="summary"></div>
+          <div class="actions"><button type="button" class="button ghost prev">مرحله قبل</button><button type="submit" class="button">ثبت نهایی نوبت</button></div>
+        </fieldset>
+      </form>
+      <div id="result" class="result hidden"></div>
+    </section>
+
+    <section id="guide" class="view card hidden">
+      <h2>راهنمای مراجعه</h2>
+      <div class="faq"><details open><summary>ساعت کاری مرکز</summary><p>شنبه تا چهارشنبه ۶:۳۰ تا ۱۴، پنج‌شنبه ۶:۳۰ تا ۱۳ و جمعه تعطیل است.</p></details><details><summary>آیا باید ناشتا باشم؟</summary><p>بله، مراجعه‌کنندگان باید به‌صورت ناشتا مراجعه کنند.</p></details><details><summary>چه مدارکی همراه داشته باشم؟</summary><p>کارت ملی عکس‌دار، کارت پایان خدمت برای آقایان، اصل گواهینامه برای متقاضیان کارت سلامت و عینک یا سمعک در صورت استفاده.</p></details><details><summary>نتیجه چه زمانی آماده می‌شود؟</summary><p>در صورت نبود مشکل یا نیاز به بررسی تکمیلی، معمولاً ۲۴ ساعت بعد.</p></details><details><summary>هزینه و بیمه</summary><p>بیمه پذیرفته نمی‌شود. برای تعرفه دقیق با مرکز تماس بگیرید.</p></details></div>
+      <a class="button" href="tel:03191001819">تماس با مرکز: ۰۳۱۹۱۰۰۱۸۱۹</a>
+    </section>
+
+    <section id="cancel" class="view card hidden">
+      <h2>لغو نوبت</h2><p>لغو اینترنتی فقط تا ۲۴ ساعت قبل از مراجعه امکان‌پذیر است.</p>
+      <form id="cancel-form"><label>کد رهگیری<input name="tracking_code" placeholder="KOS-..." required></label><label>کد ملی<input name="national_id" maxlength="10" required></label><button class="button" type="submit">بررسی و لغو نوبت</button></form>
+      <div id="cancel-result" class="result hidden"></div>
+    </section>
+  </main>
+  <footer>مسئول مرکز: {{ clinic.manager }} · ساعت پاسخ‌گویی تلفنی {{ clinic.phone_hours }}</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
