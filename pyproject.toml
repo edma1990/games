@@ -8,6 +8,9 @@ version = "0.1.0"
 description = "Bale appointment bot and admin panel for Kosar occupational medicine center"
 requires-python = ">=3.11"
 
+[tool.fastapi]
+entrypoint = "app.main:app"
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
